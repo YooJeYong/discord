@@ -19,7 +19,6 @@ export async function DiscordRequest(endpoint, options) {
     // append endpoint to root API URL
     const url = 'https://discord.com/api/v10/' + endpoint;
     // Stringify payloads
-    console.log(options, '바디바디바디');
     if (options) options.body = JSON.stringify(options.body);
     // Use node-fetch to make requests
     const res = await fetch(url, {
@@ -33,11 +32,7 @@ export async function DiscordRequest(endpoint, options) {
     // throw API errors
     if (!res.ok) {
         const data = await res.json();
-        console.log(res.status, '엥???');
         throw new Error(JSON.stringify(data));
-    } else {
-        console.log('성공!!!!!!?!?!?!??');
-        console.log(url);
     }
     // return original response
     return res;
@@ -47,13 +42,9 @@ export async function InstallGlobalCommands(appId, commands) {
     // API endpoint to overwrite global commands
     const endpoint = `applications/${appId}/commands`;
 
-    console.log(commands, '성공했어요 ㅠㅠㅠㅠ');
-    console.log(endpoint);
-
     try {
         // This is calling the bulk overwrite endpoint: https://discord.com/developers/docs/interactions/application-commands#bulk-overwrite-global-application-commands
         await DiscordRequest(endpoint, { method: 'PUT', body: commands });
-        console.log('수정요청완료!');
     } catch (err) {
         console.error(err);
     }
